@@ -1,7 +1,7 @@
-const { nanoid } = require("nanoid");
-const notes = require("./notes");
+const { nanoid } = require('nanoid');
+const books = require("./books");
 
-const addNoteHandler = (request, h) => {
+const addBookHandler = (request, h) => {
     const {
         name,
         year,
@@ -17,7 +17,7 @@ const addNoteHandler = (request, h) => {
     const insertedAt = new Date().toISOString();
     const updatedAt = insertedAt;
 
-    const newNote = {
+    const newBook = {
         id,
         name, 
         year, 
@@ -32,22 +32,22 @@ const addNoteHandler = (request, h) => {
         updatedAt
     };
 
-    notes.push(newNote);
+    books.push(newBook);
 
-    const isSuccess = notes.filter((note) => note.name === name || note.readPage === readPage).length > 0;
+    const isSuccess = books.filter((book) => book.name === books.name).length > 0;
 
     if (isSuccess) {
         const response = h.respone({
             status: 'success',
             message: 'Buku berhasil ditambahkan',
             data: {
-                bookId: `${note.id}`
+                bookId: id,
             },
         });
         response.code(201);
         return response;
     }
-    if (isSuccess !== note.name) {
+    if (isSuccess === false) {
         const response = h.respone({
             status: 'fail',
             message: 'Gagal menambahkan buku. Mohon isi nama buku',
@@ -55,7 +55,7 @@ const addNoteHandler = (request, h) => {
         response.code(400);
         return response;
     }
-    if (isSuccess >= note.pageCount) {
+    if (readPage >= pageCount) {
         const response = h.respone({
             status: 'fail',
             message: 'Gagal menambahkan buku. readPage tidak boleh lebih besar dari pageCount',
@@ -69,13 +69,13 @@ const addNoteHandler = (request, h) => {
     });
     response.code(500);
     return response;
-}
+};
 
-const getAllNotesHeader = () => ({
+const getAllBooksHeader = () => ({
     status: 'success',
     data: {
-        notes,
+        books,
     },
 });
 
-module.exports = {addNoteHandler, getAllNotesHeader};
+module.exports = {addBookHandler, getAllBooksHeader};

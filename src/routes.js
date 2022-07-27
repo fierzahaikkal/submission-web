@@ -1,15 +1,15 @@
-const {addNoteHandler, getAllNotesHeader} = require ('./handler');
+const {addBookHandler, getAllBooksHeader} = require ('./handler');
 
 const routes = [
     {
         method: 'POST',
         path: '/books',
-        handler: addNoteHandler
+        handler: addBookHandler
     },
     {
         method: 'GET',
         path: '/books',
-        handler: getAllNotesHeader
+        handler: getAllBooksHeader
     },
     {
         method: 'GET',
