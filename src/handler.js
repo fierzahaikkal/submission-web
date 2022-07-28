@@ -120,6 +120,7 @@ const editBookByIdHandler = (request, h) => {
     const updateAt = new Date().toISOString();
 
     const index = books.findIndex((book) => book.id === id);
+    const book = books.filter((b) => book.id === id).length > 0;
 
     if (index !== -1){
         books[index] = {
