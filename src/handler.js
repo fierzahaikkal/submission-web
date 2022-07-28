@@ -117,12 +117,12 @@ const editBookByIdHandler = (request, h) => {
         reading
     } = request.payload;
 
-    const updateAt = new Date().toISOString();
+    const updatedAt = new Date().toISOString();
 
-    const index = books.findIndex((book) => book.id === id);
-    const book = books.filter((b) => book.id === id).length > 0;
+    const bookName = books.findIndex((book) => book.name === name);
+    const book = books.filter((b) => book.id === id);
 
-    if (index !== -1){
+    if (bookName !== -1){
         books[index] = {
             ...books[index],
             name,
@@ -142,6 +142,30 @@ const editBookByIdHandler = (request, h) => {
                 },
             },
         });
+        response.code(200);
+        return response;
     }
+    if (readPage > pageCount ){
+        const response = h.response({
+            status: 'fail',
+            message: 'Gagal memperbarui buku. readPage tidak boleh lebih besar dari pageCount'
+        });
+        response.code(400);
+        return response;
+    }
+    if (book === undefined) {
+        const response = h.response({
+            status: 'fail',
+            message: 'Gagal memperbarui buku. Id tidak ditemukan'
+        });
+        response.code(400);
+        return response;
+    }
+    const response = h.response ({
+        status: 'fail',
+        message: 'Gagal memperbarui buku. Mohon isi nama buku'
+    });
+    response.code(400);
+    return response;
 }
 module.exports = {addBookHandler, getAllBooksHeader, getBookByIdHandler};
