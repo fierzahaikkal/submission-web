@@ -12,7 +12,7 @@
     },
     "rules": {
         "no-console": "off",
-        "quotes": ["warning", "double"],
+        "quotes": ["warning", "single"],
         "semi": ["warning", "always"],
         "eol-last": ["error", "windows"]
     }
