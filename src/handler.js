@@ -76,10 +76,10 @@ const addBookHandler = (request, h) => {
 
 const getAllBooksHandler = (request, h) => {
     let responseBody;
-    const query = request.query;// ngambil query daru url dengan nilai berupa object
-    const {name, reading, finished} = query;// object destructuring, memasukkan value dari property object ke variabel
+    const query = request.query;
+    const {name, reading, finished} = query;
   
-    if (name) {// kalo name nya ada pasti true, kalo tidak ada false, kalo false tidak akan dijalankan
+    if (name) {
       const array = [];
       for (let i=0; i<books.length; i++) {
         if (books[i].name.toLowerCase().includes(name.toLowerCase())) {
@@ -96,7 +96,7 @@ const getAllBooksHandler = (request, h) => {
       return responseBody;
     }
   
-    if (reading && Number(reading) === 0 || Number(reading) === 1) {// kalo reading ada dan bernilai 0 atau 1, akan dijalankan
+    if (reading && Number(reading) === 0 || Number(reading) === 1) {
       const array = [];
       for (let i=0; i<books.length; i++) {
         if (books[i].reading == reading) {
@@ -113,7 +113,7 @@ const getAllBooksHandler = (request, h) => {
       return responseBody;
     }
   
-    if (finished && Number(finished) === 0 || Number(finished) === 1) {// kalo finished ada dan bernilai 0 atau 1, akan dijalankan
+    if (finished && Number(finished) === 0 || Number(finished) === 1) {
       const array = [];
       for (let i=0; i<books.length; i++) {
         if (books[i].finished == finished) {
@@ -128,7 +128,7 @@ const getAllBooksHandler = (request, h) => {
         },
       };
       return responseBody;
-    } else if (finished && Number(finished) !== 0 && Number(finished) !== 1) {// kalo finished ada tapi nilainya bukan 0 atau 1
+    } else if (finished && Number(finished) !== 0 && Number(finished) !== 1) {
       const array = [];
       for (let i=0; i<books.length; i++) {
         array.push(
@@ -143,10 +143,7 @@ const getAllBooksHandler = (request, h) => {
       };
       return responseBody;
     }
-    /**
-     * PERKONDISIAN YANG QUERY HARUS DI ATAS GET ALL, KARENA KALO DIBAWAH GET ALL GAK KEBACA, GAK TAU KENAPA
-     */
-    if (books.length > 0 && !name && !reading && !finished) {// get all tanpa query
+    if (books.length > 0 && !name && !reading && !finished) {
       const array = [];
       for (let i=0; i<books.length; i++) {
         array.push(
