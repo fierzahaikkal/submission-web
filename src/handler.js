@@ -75,98 +75,36 @@ const addBookHandler = (request, h) => {
 };
 
 const getAllBooksHandler = (request, h) => {
-    let responseBody;
-    const query = request.query;
-    const {name, reading, finished} = query;
-  
-    if (name) {
-      const array = [];
-      for (let i=0; i<books.length; i++) {
-        if (books[i].name.toLowerCase().includes(name.toLowerCase())) {
-          const {id, name, publisher} = books[i];
-          array.push({id, name, publisher});
-        }
-      }
-      responseBody = {
-        'status': 'success',
-        'data': {
-          'books': array,
-        },
-      };
-      return responseBody;
-    }
-  
-    if (reading && Number(reading) === 0 || Number(reading) === 1) {
-      const array = [];
-      for (let i=0; i<books.length; i++) {
-        if (books[i].reading == reading) {
-          const {id, name, publisher} = books[i];
-          array.push({id, name, publisher});
-        }
-      }
-      responseBody = {
-        'status': 'success',
-        'data': {
-          'books': array,
-        },
-      };
-      return responseBody;
-    }
-  
-    if (finished && Number(finished) === 0 || Number(finished) === 1) {
-      const array = [];
-      for (let i=0; i<books.length; i++) {
-        if (books[i].finished == finished) {
-          const {id, name, publisher} = books[i];
-          array.push({id, name, publisher});
-        }
-      }
-      responseBody = {
-        'status': 'success',
-        'data': {
-          'books': array,
-        },
-      };
-      return responseBody;
-    } else if (finished && Number(finished) !== 0 && Number(finished) !== 1) {
-      const array = [];
-      for (let i=0; i<books.length; i++) {
-        array.push(
-            {id: books[i].id, name: books[i].name, publisher: books[i].publisher},
-        );
-      }
-      responseBody = {
-        'status': 'success',
-        'data': {
-          'books': array,
-        },
-      };
-      return responseBody;
-    }
-    if (books.length > 0 && !name && !reading && !finished) {
-      const array = [];
-      for (let i=0; i<books.length; i++) {
-        array.push(
-            {id: books[i].id, name: books[i].name, publisher: books[i].publisher},
-        );
-      }
-      responseBody = {
-        'status': 'success',
-        'data': {
-          'books': array,
-        },
-      };
-      return responseBody;
-    } else {
-      responseBody = {
-        status: 'success',
-        data: {
-          books,
-        },
-      };
-      return responseBody;
-    }
-  };
+  const { name, reading, finished } = request.query;
+
+  let checkedBook = books;
+
+  if (name !== undefined) {
+    checkedBook = checkedBook.filter((b) => b
+      .name.toLowerCase().includes(name.toLowerCase()));
+  }
+
+  if (reading !== undefined) {
+    checkedBook = checkedBook.filter((b) => b.reading === !!Number(reading));
+  }
+
+  if (finished !== undefined) {
+    checkedBook = checkedBook.filter((b) => b.finished === !!Number(finished));
+  }
+
+  const response = h.response({
+    status: 'success',
+    data: {
+      books: checkedBook.map((b) => ({
+        id: b.id,
+        name: b.name,
+        publisher: b.publisher,
+      })),
+    },
+  });
+  response.code(200);
+  return response;
+};
 
 const getBookByIdHandler = (request, h) => {
     const {id} = request.params;
